@@ -9,7 +9,7 @@ class Misc extends AModule
         '\Botlife\Module\Misc\Command\Translate',
         '\Botlife\Module\Misc\Command\YouTube',
         '\Botlife\Module\Misc\Command\EightBall',
-        '\Botlife\Module\Misc\Command\Misc\NineGag',
+        '\Botlife\Module\Misc\Command\NineGag',
     	'\Botlife\Module\Misc\Command\Imdb',
     );
 
