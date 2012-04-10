@@ -6,7 +6,7 @@ class Math extends AModule
 {
 
     public $commands = array(
-        '\Botlife\Command\Calc',
+        '\Botlife\Module\Math\Command\Calc',
     );
 
 }
