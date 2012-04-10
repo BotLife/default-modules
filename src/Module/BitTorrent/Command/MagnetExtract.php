@@ -4,7 +4,7 @@ namespace Botlife\Module\BitTorrent\Command;
 
 use Ircbot\Type\MessageCommand;
 
-class MagnetExtract extends \BotLife\Command\ACommand
+class MagnetExtract extends \Botlife\Command\ACommand
 {
 
     public $regex  = '/^magnet\:.*/i';
