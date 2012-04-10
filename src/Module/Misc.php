@@ -6,11 +6,11 @@ class Misc extends AModule
 {
 
     public $commands = array(
-        '\Botlife\Command\Translate',
-        '\Botlife\Command\YouTube',
-        '\Botlife\Command\EightBall',
-        '\Botlife\Command\Misc\NineGag',
-    	'\Botlife\Command\Imdb',
+        '\Botlife\Module\Misc\Command\Translate',
+        '\Botlife\Module\Misc\Command\YouTube',
+        '\Botlife\Module\Misc\Command\EightBall',
+        '\Botlife\Module\Misc\Command\Misc\NineGag',
+    	'\Botlife\Module\Misc\Command\Imdb',
     );
 
 }
