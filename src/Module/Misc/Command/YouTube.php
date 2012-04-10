@@ -16,6 +16,7 @@ class YouTube extends \Botlife\Command\ACommand
     public $responseType    = self::RESPONSE_PUBLIC;
     
     private $_lastrun;
+    private $_cache = array();
     
     public function lookup(MessageCommand $event)
     {
@@ -48,12 +49,22 @@ class YouTube extends \Botlife\Command\ACommand
                 ),
             ),
             'Favorites' => number_format($data->timesFavorited),
-            'Views'     => number_format($data->views)
+            'Views'     => number_format($data->views)/*,
+            'Cached'    => ($data->cached) ? 'Yes' : 'No'*/
         ),  $C(12, 'You') . $C(03, 'Tube'));
+        
+        foreach ($this->_cache as $key => $value)
+            if ($value['time'] > (time() + 300))
+                unset($this->_cache[$key]);
     }
     
     public function getData($videoId)
     {
+        if (isset($this->_cache[$videoId])) {
+            $this->_cache[$videoId]['object']->cached = true;
+            return $this->_cache[$videoId]['object'];
+        }
+        $this->_cache[$videoId]['time'] = time();
         $dOM = new \DOMDocument();
         @$dOM->load('https://gdata.youtube.com/feeds/api/videos/' . $videoId . '?v=2');
         $video = new \StdClass;
@@ -67,6 +78,7 @@ class YouTube extends \Botlife\Command\ACommand
             ->getAttribute('seconds');
         $rating = $dOM->getElementsByTagName('rating')->item(0);
         if (!$rating) {
+            $this->_cache[$videoId]['object'] = false;
             return false;
         }
         $video->ratingAverage = (float) $rating->getAttribute('average');
@@ -77,6 +89,8 @@ class YouTube extends \Botlife\Command\ACommand
         $statistics = $dOM->getElementsByTagName('statistics')->item(0);
         $video->views = (int) $statistics->getAttribute('viewCount');
         $video->timesFavorited = (int) $statistics->getAttribute('favoriteCount');
+        $video->cached = false;
+        $this->_cache[$videoId]['object'] = $video;
         return $video;
     }
     
