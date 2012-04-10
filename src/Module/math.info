@@ -1,0 +1,3 @@
+name     = Math module
+class    = Math
+autoload = true

@@ -1,0 +1,3 @@
+name     = Misc
+class    = Misc
+autoload = true
