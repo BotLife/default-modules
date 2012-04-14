@@ -1,0 +1,3 @@
+[submodule "src/library/torrent_parser"]
+	path = src/library/torrent_parser
+	url = git://github.com/BotLife/torrent_parser.git
