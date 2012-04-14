@@ -2,3 +2,4 @@ name           = BitTorrent
 class          = BitTorrent
 autoload       = true
 include_path[] = ../library/torrent_parser/src
+include_path[] = ../library/magnet_parser/src

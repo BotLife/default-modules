@@ -1,3 +1,6 @@
 [submodule "src/library/torrent_parser"]
 	path = src/library/torrent_parser
 	url = git://github.com/BotLife/torrent_parser.git
+[submodule "src/library/magnet_parser"]
+	path = src/library/magnet_parser
+	url = git://github.com/BotLife/magnet_parser.git
