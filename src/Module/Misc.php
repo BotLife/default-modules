@@ -13,4 +13,18 @@ class Misc extends AModule
     	'\Botlife\Module\Misc\Command\Imdb',
     );
 
+    public function __construct()
+    {
+        $imdb = new Misc\Dao\MovieInfo;
+        \DataGetter::addCallback(
+        	'movie-info', 'imdb-search', array($imdb, 'getVideoInfo'), 50
+    	);
+        $starRating = new Misc\Dao\StarRating;
+        \DataGetter::addCallback(
+        	'star-rating', 'star-rating-color',
+        	array($starRating, 'getRating'), 50
+        );
+        parent::__construct();
+    }
+    
 }
