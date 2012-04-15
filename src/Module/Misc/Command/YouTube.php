@@ -36,7 +36,7 @@ class YouTube extends \Botlife\Command\ACommand
             'Title'     => $data->title . $C(12, '[')
                 . $C(3, gmdate('H:i:s', $data->duration)) . $C(12, ']'),
             'Rating'    => array(
-                $this->_getRatingBar($data->ratingAverage),
+                \DataGetter::getData('star-rating', $data->ratingAverage),
                 array(
                     'Likes'    => number_format($data->ratingLikes),
                     'Dislikes' => number_format($data->ratingDislikes),
@@ -92,14 +92,6 @@ class YouTube extends \Botlife\Command\ACommand
         $video->cached = false;
         $this->_cache[$videoId]['object'] = $video;
         return $video;
-    }
-    
-    private function _getRatingBar($ratings) {
-        $ratings = round($ratings, 0);
-        $str = null;
-        $str .= chr(3) . '03' . str_repeat('★', $ratings);
-        $str .= chr(3) . '12' . str_repeat('★', 5 - $ratings);
-        return $str;
     }
     
 }

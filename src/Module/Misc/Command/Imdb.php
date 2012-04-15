@@ -19,8 +19,7 @@ class Imdb extends \Botlife\Command\ACommand
             );
             return false;
         }
-        $dao  = new \Botlife\Dao\MovieInfo;
-        $movie = $dao->getVideoInfo($event->matches['title']);
+        $movie = \DataGetter::getData('movie-info', $event->matches['title']);
         if (!$movie) {
             $this->respondWithPrefix(
                 'Could not find information related to that movie.'
@@ -37,7 +36,7 @@ class Imdb extends \Botlife\Command\ACommand
         	'Title' => $data->title . (($data->duration) ? $c(12, '[')
                 . $c(3, gmdate('H:i:s', $data->duration)) . $c(12, ']') : null),
             'Rating' => array(
-                $this->_getRatingBar($data->ratingAverage),
+                \DataGetter::getData('star-rating', $data->ratingAverage),
                 array(
                     'Likes'    => number_format($data->ratingLikes),
                     'Dislikes' => number_format($data->ratingDislikes),
@@ -48,15 +47,6 @@ class Imdb extends \Botlife\Command\ACommand
             'Plot' => $data->plot,
             'URL'  => $data->url,
         ));
-    }
-    
-    private function _getRatingBar($ratings)
-    {
-        $ratings = round($ratings, 0);
-        $str = null;
-        $str .= chr(3) . '03' . str_repeat('★', $ratings);
-        $str .= chr(3) . '12' . str_repeat('★', 5 - $ratings);
-        return $str;
     }
     
 }
