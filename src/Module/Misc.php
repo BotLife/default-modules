@@ -11,6 +11,7 @@ class Misc extends AModule
         '\Botlife\Module\Misc\Command\EightBall',
         '\Botlife\Module\Misc\Command\NineGag',
     	'\Botlife\Module\Misc\Command\Imdb',
+    	'\Botlife\Module\Misc\Command\UrlShortener',
     );
 
     public function __construct()
@@ -31,7 +32,7 @@ class Misc extends AModule
         );
         \DataGetter::addCallback(
         	'file-content', 'file-get-content',
-            'file_get_contents', 50
+            array($doCurl, 'fileGetContents'), 50
         );
         $translator = new Misc\Dao\Translator;
         \DataGetter::addCallback(
@@ -41,6 +42,11 @@ class Misc extends AModule
         \DataGetter::addCallback(
         	'translator', 'leet-translate',
             array($translator, 'translateWithLeet'), 60
+        );
+        $urlShortener = new Misc\Dao\UrlShortener;
+        \DataGetter::addCallback(
+        	'url-shortener', 'google',
+            array($urlShortener, 'usingGoogle'), 60
         );
         parent::__construct();
     }
