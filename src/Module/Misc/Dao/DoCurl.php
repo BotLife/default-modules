@@ -13,9 +13,7 @@ class DoCurl
             $this->_curl = curl_init();
             curl_setopt($this->_curl, CURLOPT_RETURNTRANSFER, true);
         }
-        if ($proxy = $this->_getProxy()) {
-            curl_setopt($this->_curl, CURLOPT_PROXY, $proxy);
-        }
+        curl_setopt_array($this->_curl, $this->_getOptions());
         curl_setopt($this->_curl, CURLOPT_URL, $url);
         return curl_exec($this->_curl);
     }
@@ -32,7 +30,7 @@ class DoCurl
         if (isset($context['http']['timeout'])) {
             $options[CURLOPT_TIMEOUT] = (int) $context['http']['timeout'];
         }
-        return false;
+        return $options;
     }
     
 }
