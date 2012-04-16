@@ -2,6 +2,8 @@
 
 namespace Botlife\Module\Misc\Command;
 
+use Botlife\Module\Misc\Dao\Translator;
+
 class Translate extends \Botlife\Command\ACommand
 {
 
@@ -11,10 +13,11 @@ class Translate extends \Botlife\Command\ACommand
     public $action = 'translate';
     public $code   = 'translate';
     
-    public $languages = array('nl', 'en', 'ru');
+    // public $languages = array('nl', 'en', 'ru');
 
     public function translate($event)
     {
+        $startTime = microtime(true);
         $this->detectResponseType($event->message, $event->target);
         $c = new \Botlife\Application\Colors;
         if (!isset($event->matches['langs'])) {
@@ -31,7 +34,7 @@ class Translate extends \Botlife\Command\ACommand
             );  
             return;
         }
-        if (!in_array(strtolower($event->matches['from']), $this->languages)) {
+        /*if (!in_array(strtolower($event->matches['from']), $this->languages)) {
             $this->respondWithPrefix(
                 'The language you\'re trying to translate from isn\'t supported'
             );
@@ -42,28 +45,28 @@ class Translate extends \Botlife\Command\ACommand
                 'The language you\'re trying to translate to isn\'t supported'
             );
             return;
-        }
-        $translated = $this->getTranslation(
-            $event->matches['from'], $event->matches['to'],
+        }*/
+        $info = \DataGetter::getData('translator',
+            Translator::languageId($event->matches['from']),
+            Translator::languageId($event->matches['to']),
             $event->matches['text']
         );
-        if (!$translated) {
+        if ($info === false) {
             $this->respondWithPrefix('Could not translate your text');
             return;
         }
         $this->respondWithInformation(array(
-            'Origin'     => $event->matches['from'],
-            'Translated' => $translated
+            'Origin'     => array(
+                $event->matches['text'],
+                array(
+                    Translator::languageName($info->from) . ' => '
+                    	. Translator::languageName($info->to)
+            	)
+            ),
+            'Translated' => $info->text,
+            'Time'       => round((microtime(true) - $startTime) * 1000, 2)
+                . 'ms'
         ));
-    }
-    
-    public function getTranslation($from, $to, $text)
-    {
-        $url = 'http://mymemory.translated.net/api/get';
-        $url .= '?q=' . urlencode($text);
-        $url .= '&langpair=' . $from . '|' . $to;
-        $data = json_decode(\DataGetter::getData('file-content', $url));
-        return $data->responseData->translatedText;
     }
     
 }

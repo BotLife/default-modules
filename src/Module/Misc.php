@@ -33,6 +33,15 @@ class Misc extends AModule
         	'file-content', 'file-get-content',
             'file_get_contents', 50
         );
+        $translator = new Misc\Dao\Translator;
+        \DataGetter::addCallback(
+        	'translator', 'mymemory-translate',
+            array($translator, 'translateWithMyMemory'), 50
+        );
+        \DataGetter::addCallback(
+        	'translator', 'leet-translate',
+            array($translator, 'translateWithLeet'), 60
+        );
         parent::__construct();
     }
     

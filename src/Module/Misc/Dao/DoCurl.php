@@ -20,11 +20,17 @@ class DoCurl
         return curl_exec($this->_curl);
     }
     
-    private function _getProxy()
+    private function _getOptions()
     {
         $context = stream_context_get_options(stream_context_get_default());
-        if ($context['http']['proxy']) {
-            return str_replace('tcp', 'http', $context['http']['proxy']);   
+        $options = array();
+        if (isset($context['http']['proxy'])) {
+            $options[CURLOPT_PROXY] = str_replace(
+            	'tcp', 'http', $context['http']['proxy']
+            ); 
+        }
+        if (isset($context['http']['timeout'])) {
+            $options[CURLOPT_TIMEOUT] = (int) $context['http']['timeout'];
         }
         return false;
     }

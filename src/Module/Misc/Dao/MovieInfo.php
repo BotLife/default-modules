@@ -34,7 +34,7 @@ class MovieInfo
     
     private function _getData($title)
     {
-        return json_decode(file_get_contents(
+        return json_decode(\DataGetter::getData('file-content', 
         	'http://www.imdbapi.com/?i=&t=' . urlencode($title)
         ));
     }

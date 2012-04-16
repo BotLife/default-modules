@@ -49,8 +49,8 @@ class YouTube extends \Botlife\Command\ACommand
                 ),
             ),
             'Favorites' => number_format($data->timesFavorited),
-            'Views'     => number_format($data->views)/*,
-            'Cached'    => ($data->cached) ? 'Yes' : 'No'*/
+            'Views'     => number_format($data->views),
+            /*'Cached'    => ($data->cached) ? 'Yes' : 'No'*/
         ),  $C(12, 'You') . $C(03, 'Tube'));
         
         foreach ($this->_cache as $key => $value)
