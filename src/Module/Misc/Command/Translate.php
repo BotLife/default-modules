@@ -11,7 +11,7 @@ class Translate extends \Botlife\Command\ACommand
     public $action = 'translate';
     public $code   = 'translate';
     
-    public $languages = array('nl', 'en');
+    public $languages = array('nl', 'en', 'ru');
 
     public function translate($event)
     {
@@ -43,16 +43,18 @@ class Translate extends \Botlife\Command\ACommand
             );
             return;
         }
-        $response = $this->getTranslation(
+        $translated = $this->getTranslation(
             $event->matches['from'], $event->matches['to'],
             $event->matches['text']
         );
-        if (!$response) {
+        if (!$translated) {
             $this->respondWithPrefix('Could not translate your text');
             return;
         }
-        $msg = $response;
-        $this->respondWithPrefix($msg);
+        $this->respondWithInformation(array(
+            'Origin'     => $event->matches['from'],
+            'Translated' => $translated
+        ));
     }
     
     public function getTranslation($from, $to, $text)
@@ -60,7 +62,7 @@ class Translate extends \Botlife\Command\ACommand
         $url = 'http://mymemory.translated.net/api/get';
         $url .= '?q=' . urlencode($text);
         $url .= '&langpair=' . $from . '|' . $to;
-        $data = json_decode(file_get_contents($url));
+        $data = json_decode(\DataGetter::getData('file-content', $url));
         return $data->responseData->translatedText;
     }
     
