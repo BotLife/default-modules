@@ -53,9 +53,11 @@ class YouTube extends \Botlife\Command\ACommand
             /*'Cached'    => ($data->cached) ? 'Yes' : 'No'*/
         ),  $C(12, 'You') . $C(03, 'Tube'));
         
-        foreach ($this->_cache as $key => $value)
-            if ($value['time'] > (time() + 300))
+        foreach ($this->_cache as $key => $value) {
+            if ($value['time'] > (time() + 300)) {
                 unset($this->_cache[$key]);
+            }
+        }
     }
     
     public function getData($videoId)

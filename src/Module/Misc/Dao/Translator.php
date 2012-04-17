@@ -9,10 +9,12 @@ class Translator
     const LANG_DUTCH   = 2;
     const LANG_RUSSIAN = 3;
     const LANG_LEET    = 4;
+    const LANG_GERMAN  = 5;
     
     const TRANSLATOR_DEFAULT  = 1;
     const TRANSLATOR_MYMEMORY = 2;
-    const TRANSLATOR_LEET = 3;
+    const TRANSLATOR_LEET     = 3;
+    const TRANSLATOR_GOOGLE   = 4;
     
     static private $_mapping = array(
         'en'      => self::LANG_ENGLISH,
@@ -24,6 +26,7 @@ class Translator
     	'1337'    => self::LANG_LEET,
     	'leet'    => self::LANG_LEET,
     	'le'      => self::LANG_LEET,
+    	'de'      => self::LANG_GERMAN,
     );
     
     private $_translatorMapping = array(
@@ -31,6 +34,7 @@ class Translator
             self::LANG_ENGLISH => 'en',
             self::LANG_DUTCH   => 'nl',
             self::LANG_RUSSIAN => 'ru',
+            self::LANG_GERMAN  => 'de',
         ),
     );
     
@@ -39,10 +43,16 @@ class Translator
             self::LANG_ENGLISH,
             self::LANG_DUTCH,
             self::LANG_RUSSIAN,
+            self::LANG_GERMAN,
         ),
         self::TRANSLATOR_LEET => array(
             self::LANG_ENGLISH,
             self::LANG_DUTCH,
+        ),
+        self::TRANSLATOR_GOOGLE => array(
+            self::LANG_ENGLISH,
+            self::LANG_DUTCH,
+            self::LANG_RUSSIAN,
         ),
     );
     
@@ -51,6 +61,7 @@ class Translator
         self::LANG_DUTCH   => 'Dutch',
         self::LANG_RUSSIAN => 'Russian',
         self::LANG_LEET    => 'Leetspeak',
+        self::LANG_GERMAN  => 'German',
     );
     
     public function translateWithMyMemory($from, $to, $text)
@@ -76,6 +87,34 @@ class Translator
         return $info;
     }
     
+    public function translateWithGoogle($from, $to, $text)
+    {
+        if (!$this->translatorSupports(self::TRANSLATOR_GOOGLE, $from)
+            || !$this->translatorSupports(self::TRANSLATOR_GOOGLE, $to)
+        ) {
+            return false;
+        }
+        $fromCode = $this->languageCode(self::TRANSLATOR_GOOGLE, $from);
+        $toCode = $this->languageCode(self::TRANSLATOR_GOOGLE, $to);
+        $url = 'https://www.googleapis.com/language/translate/v2?';
+        $url .= http_build_query(array(
+        	'key'  => 'AIzaSyCAzLZhuRY3G006I7RgKBjW0xVhILOVvmA',
+        	'q'    => $text,
+        	'source' => $fromCode,
+        	'target' => $toCode,
+    	));
+        $data = json_decode(\DataGetter::getData('file-content', $url));
+        var_dump($data);
+        if (!isset($data->data->translations->translatedText)) {
+            return false;
+        }
+        $info = new \StdClass;
+        $info->from = $from;
+        $info->to   = $to;
+        $info->text = $data->data->translations->translatedText;
+        return $info;
+    }
+    
     public function translateWithLeet($from, $to, $text)
     {
         if (!$this->translatorSupports(self::TRANSLATOR_LEET, $from)
@@ -88,10 +127,10 @@ class Translator
         	'b' => 8,
             'e' => 3,
         	'g' => 6,
-            'l' => 1,
+        	'i' => 1,
+            'l' => 7,
         	'o' => 0,
             's' => 5,
-            't' => 7,
             'z' => 2,
         );
         $text = str_replace(array_keys($letters), array_values($letters), $text);

@@ -36,6 +36,10 @@ class Misc extends AModule
         );
         $translator = new Misc\Dao\Translator;
         \DataGetter::addCallback(
+        	'translator', 'google-translate',
+            array($translator, 'translateWithGoogle'), 55
+        );
+        \DataGetter::addCallback(
         	'translator', 'mymemory-translate',
             array($translator, 'translateWithMyMemory'), 50
         );
