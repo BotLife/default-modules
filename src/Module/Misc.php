@@ -12,6 +12,7 @@ class Misc extends AModule
         '\Botlife\Module\Misc\Command\NineGag',
     	'\Botlife\Module\Misc\Command\Imdb',
     	'\Botlife\Module\Misc\Command\UrlShortener',
+    	'\Botlife\Module\Misc\Command\Search',
     );
 
     public function __construct()
@@ -52,6 +53,8 @@ class Misc extends AModule
         	'url-shortener', 'google',
             array($urlShortener, 'usingGoogle'), 60
         );
+        $googleSearch = new Misc\Dao\GoogleSearch;
+        $youtubeSearch = new Misc\Dao\YoutubeSearch;
         parent::__construct();
     }
     
