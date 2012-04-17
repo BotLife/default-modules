@@ -17,10 +17,6 @@ class Misc extends AModule
 
     public function __construct()
     {
-        $imdb = new Misc\Dao\MovieInfo;
-        \DataGetter::addCallback(
-        	'movie-info', 'imdb-search', array($imdb, 'getVideoInfo'), 50
-    	);
         $starRating = new Misc\Dao\StarRating;
         \DataGetter::addCallback(
         	'star-rating', 'star-rating-color',
@@ -55,6 +51,7 @@ class Misc extends AModule
         );
         $googleSearch = new Misc\Dao\GoogleSearch;
         $youtubeSearch = new Misc\Dao\YoutubeSearch;
+        $imdbSearch = new Misc\Dao\ImdbSearch;
         parent::__construct();
     }
     

@@ -45,7 +45,26 @@ class Search extends \Botlife\Command\ACommand
     private function _createResponseData($entry)
     {
         $data = array();
-        $data['Title'] = $entry->title;
+        if (isset($entry->duration)) {
+            $data['Title'] = array();
+            $data['Title'][] = $entry->title;
+            $data['Title'][] = array(gmdate('H:i:s', $entry->duration));
+        } else {
+            $data['Title'] = $entry->title;
+        }
+        if (isset($entry->rating)) {
+            $data['Rating'] = array();
+            $data['Rating'][] = \DataGetter::getData(
+            	'star-rating', $entry->rating->average / 20
+            );
+            $data['Rating'][] = array(
+                'Likes'    => number_format($entry->rating->likes),
+                'Dislikes' => number_format($entry->rating->dislikes),
+            );
+        }
+        if (isset($entry->date)) {
+            $data['Date'] = $entry->date->format('Y-m-d');
+        }
         if (isset($entry->description)) {
             $length = 100;
             if (strlen($entry->description) > $length) {

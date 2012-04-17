@@ -2,12 +2,14 @@
 
 namespace Botlife\Module\Misc\Command;
 
+use Botlife\Module\Misc\Dao\SearchEngine;
+
 class Imdb extends \Botlife\Command\ACommand
 {
     
     public $code   = 'imdb';
     public $action = 'init';
-    public $regex  = '/[.!@]imdb( )?(?P<title>\w+)?/i';
+    public $regex  = '/^[.!@]imdb( )?(?P<title>\w+)?$/i';
     
     public function init(\Ircbot\Type\MessageCommand $event)
     {
@@ -19,13 +21,16 @@ class Imdb extends \Botlife\Command\ACommand
             );
             return false;
         }
-        $movie = \DataGetter::getData('movie-info', $event->matches['title']);
-        if (!$movie) {
+        $results = SearchEngine::searchWithEngine(
+        	'imdb', $event->matches['title']
+    	);
+        if (!$results) {
             $this->respondWithPrefix(
                 'Could not find information related to that movie.'
             );
             return false;
         }
+        $movie = $results->entries[0];
         $this->run($movie);
     }
     
@@ -36,15 +41,17 @@ class Imdb extends \Botlife\Command\ACommand
         	'Title' => $data->title . (($data->duration) ? $c(12, '[')
                 . $c(3, gmdate('H:i:s', $data->duration)) . $c(12, ']') : null),
             'Rating' => array(
-                \DataGetter::getData('star-rating', $data->ratingAverage),
+                \DataGetter::getData(
+                	'star-rating', $data->rating->average / 20
+            	),
                 array(
-                    'Likes'    => number_format($data->ratingLikes),
-                    'Dislikes' => number_format($data->ratingDislikes),
+                    'Likes'    => number_format($data->rating->likes),
+                    'Dislikes' => number_format($data->rating->dislikes),
                 ),
             ),
-            'Released' => ($data->released) ? $data->released->format('Y-m-d')
+            'Released' => ($data->date) ? $data->date->format('Y-m-d')
                 : 'Unknown',
-            'Plot' => $data->plot,
+            'Plot' => $data->description,
             'URL'  => $data->url,
         ));
     }

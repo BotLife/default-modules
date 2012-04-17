@@ -5,8 +5,9 @@ namespace Botlife\Module\Misc\Dao;
 class YoutubeSearch extends \Botlife\Entity\SearchEngine
 {
     
-    public $id      = 'youtube';
-    public $aliases = array('yt');
+    public $id       = 'youtube';
+    public $priority = 15;
+    public $aliases  = array('yt');
     
     public function search($searchTerms, $results = 1)
     {
