@@ -44,6 +44,7 @@ class Search extends \Botlife\Command\ACommand
     
     private function _createResponseData($entry)
     {
+        $math = new \Botlife\Utility\Math;
         $data = array();
         if (isset($entry->duration)) {
             $data['Title'] = array();
@@ -52,15 +53,27 @@ class Search extends \Botlife\Command\ACommand
         } else {
             $data['Title'] = $entry->title;
         }
+        if (isset($entry->price)) {
+            $data['Price'] = $math->alphaRound($entry->price->amount, 2);
+            if (isset($entry->price->currency)) {
+                $data['Price'] .= ' ' . $entry->price->currency;
+            }
+        }
         if (isset($entry->rating)) {
-            $data['Rating'] = array();
-            $data['Rating'][] = \DataGetter::getData(
-            	'star-rating', $entry->rating->average / 20
-            );
-            $data['Rating'][] = array(
-                'Likes'    => number_format($entry->rating->likes),
-                'Dislikes' => number_format($entry->rating->dislikes),
-            );
+            if (!isset($entry->rating->likes)) {
+                $data['Rating'] = \DataGetter::getData(
+                	'star-rating', $entry->rating->average / 20
+                );
+            } else {
+                $data['Rating'] = array();
+                $data['Rating'][] = \DataGetter::getData(
+                	'star-rating', $entry->rating->average / 20
+                );
+                $data['Rating'][] = array(
+                    'Likes'    => number_format($entry->rating->likes),
+                    'Dislikes' => number_format($entry->rating->dislikes),
+                );
+            }
         }
         if (isset($entry->date)) {
             $data['Date'] = $entry->date->format('Y-m-d');
@@ -75,6 +88,12 @@ class Search extends \Botlife\Command\ACommand
             $data['Description'] = $entry->description;
         }
         if (isset($entry->url)) {
+            if (strlen($entry->url) > 50) {
+                $shortened = \DataGetter::getData('url-shortener', $entry->url);
+                if ($shortened) {
+                    $entry->url = $shortened;
+                }
+            }
             $data['Link'] = $entry->url;
         }
         return $data;
