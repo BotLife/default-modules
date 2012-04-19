@@ -49,6 +49,8 @@ class ImdbSearch extends \Botlife\Entity\SearchEngine
         $result->rating->average = (float) $data->Rating * 10;
         list($result->rating->likes, $result->rating->dislikes) = $this
             ->_splitRating($data->Rating, $result->votes);
+        $result->categories = explode(', ', $data->Genre);
+        
         $info->entries[0] = $result;
         
         $info->results = count($info->entries);

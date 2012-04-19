@@ -45,6 +45,9 @@ class YoutubeSearch extends \Botlife\Entity\SearchEngine
             $result->rating->dislikes = (int) $entry->{'yt$rating'}->numDislikes;
             $result->duration = (int) $mediaGroup->{'yt$duration'}->{'seconds'}; 
             $result->description = $mediaGroup->{'media$description'}->{'$t'};
+            $result->categories = array(
+                $mediaGroup->{'media$category'}[0]->{'$t'}
+            );
             $result->url   = 'http://youtu.be/' . $result->id;
             $info->entries[] = $result;
         }

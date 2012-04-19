@@ -78,6 +78,10 @@ class Search extends \Botlife\Command\ACommand
         if (isset($entry->date)) {
             $data['Date'] = $entry->date->format('Y-m-d');
         }
+        if (isset($entry->categories)) {
+            $name = (count($entry->categories) == 1) ? 'Category' : 'Categories';
+            $data[$name] = implode(', ', $entry->categories);
+        }
         if (isset($entry->description)) {
             $length = 100;
             if (strlen($entry->description) > $length) {
