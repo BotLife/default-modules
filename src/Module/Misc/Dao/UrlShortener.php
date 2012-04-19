@@ -5,11 +5,11 @@ namespace Botlife\Module\Misc\Dao;
 class UrlShortener
 {
     
-    public function usingGoogle($url)
+    public function usingGoogle($link)
     {
         $url = 'https://www.googleapis.com/urlshortener/v1/url';
         $parameters = array(
-            'longUrl' => $url,
+            'longUrl' => $link,
             'key'     => 'AIzaSyBYJv5tEe_VdwUt4Quz0uCT2xWzbVYbptw'
         );
         $data = \DataGetter::getData(
