@@ -57,7 +57,8 @@ class Misc extends AModule
         $googleSearch = new Misc\Dao\GoogleSearch;
         $youtubeSearch = new Misc\Dao\YoutubeSearch;
         $imdbSearch = new Misc\Dao\ImdbSearch;
-        $skopSearch = new Misc\Dao\ShoppingSearch;
+        $shopSearch = new Misc\Dao\ShoppingSearch;
+        $phpSearch = new Misc\Dao\PhpManualSearch;
         parent::__construct();
     }
     

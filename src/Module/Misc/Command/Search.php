@@ -11,7 +11,7 @@ class Search extends \Botlife\Command\ACommand
     public $regex = array(
         '/^[.!@]search( (\@(?P<engine>[a-zA-Z]+) )?(?P<terms>.*))?$/i',
     );
-    //(\@(?P<engine>[a-zA-Z]+) )?
+
     public $action = 'run';
     public $code   = 'search';
     
@@ -78,15 +78,24 @@ class Search extends \Botlife\Command\ACommand
         if (isset($entry->date)) {
             $data['Date'] = $entry->date->format('Y-m-d');
         }
-        if (isset($entry->categories)) {
+        if (isset($entry->prototype)) {
+            $data['Prototype'] = $entry->prototype;
+        }
+        if (isset($entry->categories)
+            && !(isset($entry->prototype) && strlen($entry->prototype) > 50)
+        ) {
             $name = (count($entry->categories) == 1) ? 'Category' : 'Categories';
             $data[$name] = implode(', ', $entry->categories);
         }
         if (isset($entry->description)) {
-            $length = 100;
+            if (isset($entry->prototype) && strlen($entry->prototype) > 50) {
+                $length = 50;
+            } else {
+                $length = 100;
+            }
             if (strlen($entry->description) > $length) {
                 $entry->description = substr(
-                    $entry->description, 0, 100
+                    $entry->description, 0, $length
                 ) . '...';
             }
             $data['Description'] = $entry->description;

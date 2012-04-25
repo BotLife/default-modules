@@ -1,3 +1,4 @@
 name     = Misc
 class    = Misc
 autoload = true
+include_path[] = ../library/phpmanual_parser/src
