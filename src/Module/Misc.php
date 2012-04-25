@@ -49,6 +49,11 @@ class Misc extends AModule
         	'url-shortener', 'google',
             array($urlShortener, 'usingGoogle'), 60
         );
+        $youtubeShortener = new Misc\Dao\YoutubeShortener;
+        \DataGetter::addCallback(
+        	'url-shortener', 'youtube',
+            array($youtubeShortener, 'shorten'), 70
+        );
         $googleSearch = new Misc\Dao\GoogleSearch;
         $youtubeSearch = new Misc\Dao\YoutubeSearch;
         $imdbSearch = new Misc\Dao\ImdbSearch;
