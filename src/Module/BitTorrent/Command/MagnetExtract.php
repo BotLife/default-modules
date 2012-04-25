@@ -24,10 +24,12 @@ class MagnetExtract extends \Botlife\Command\ACommand
         }
         $data = array();
         if ($parser->dn) {
-            $data['Display name'] = array($parser->dn);
             if ($parser->xl) {
+                $data['Display name'] = array($parser->dn);
                 $data['Display name'][]['eXact Length']
                     = $math->alphaRound($parser->xl);
+            } else {
+                $data['Display name'] = $parser->dn;
             }
         }
         if ($parser->xt) {

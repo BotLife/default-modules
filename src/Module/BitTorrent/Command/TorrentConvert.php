@@ -18,7 +18,7 @@ class TorrentConvert extends \Botlife\Command\ACommand
     {
         $this->detectResponseType($event->message, $event->target);
         $C = new Colors;
-        $data = @file_get_contents($event->message);
+        $data = @\DataGetter::getData('file-content', $event->message);
         if (!$data) {
             return;
         }
