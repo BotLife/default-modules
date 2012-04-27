@@ -16,7 +16,7 @@ class PhpmanualSearch extends \Botlife\Entity\SearchEngine
     public $id       = 'php-manual';
     public $aliases  = array('php');
     
-    public function search($searchTerms, $results = 1)
+    public function search($searchTerms, $results = 1, $filters = array())
     {
         
         $url  = 'http://php.net/' . urlencode($searchTerms);

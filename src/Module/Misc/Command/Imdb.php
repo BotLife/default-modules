@@ -2,7 +2,7 @@
 
 namespace Botlife\Module\Misc\Command;
 
-use Botlife\Module\Misc\Dao\SearchEngine;
+use Botlife\Entity\SearchEngineHandler;
 
 class Imdb extends \Botlife\Command\ACommand
 {
@@ -21,7 +21,7 @@ class Imdb extends \Botlife\Command\ACommand
             );
             return false;
         }
-        $results = SearchEngine::searchWithEngine(
+        $results = SearchEngineHandler::searchWithEngine(
         	'imdb', $event->matches['title']
     	);
         if (!$results) {

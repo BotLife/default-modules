@@ -12,7 +12,7 @@ class StarRating
         }
         $rating = round($rating, 0);
         $str = $color(3, str_repeat('★', $rating));
-        $str .= $color(12, str_repeat('★', 5 - $rating));
+        $str .= $color(12, str_repeat('☆', 5 - $rating));
         return $str;
     }
     

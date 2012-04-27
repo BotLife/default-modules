@@ -1,14 +1,14 @@
 <?php
 
-namespace Botlife\Module\Misc\Dao;
+namespace Botlife\Module\Search\Dao\SearchEngine;
 
-class ShoppingSearch extends \Botlife\Entity\SearchEngine
+class Shopping extends \Botlife\Entity\SearchEngine
 {
     
     public $id       = 'shopping';
     public $aliases  = array('shop');
     
-    public function search($searchTerms, $results = 1)
+    public function search($searchTerms, $results = 1, $filters = array())
     {
         $url        = 'https://www.googleapis.com/shopping/search/v1/public'
         	. '/products?';
