@@ -9,7 +9,7 @@ class Search extends \Botlife\Command\ACommand
 {
 
     public $regex = array(
-        '/^[.!@]search( (\@(?P<engine>[a-zA-Z]+) )?(?P<terms>.*))?$/i',
+        '/^[.!@]search( (\@(?P<engine>[a-zA-Z]+) )?(\[(?P<filter>[a-zA-Z-]+)\] )?(?P<terms>.*))?$/i',
     );
 
     public $action = 'run';
@@ -22,17 +22,25 @@ class Search extends \Botlife\Command\ACommand
             $this->respondWithPrefix('You need to specify search terms.');
             return;
         }
+        $filters = (isset($event->matches['filter']))
+                    ? ($event->matches['filter'])
+                          : explode(',', $event->matches['filter'])
+                          ? array()
+                    : array();
         if (isset($event->matches['engine']) && $event->matches['engine']) {
             try {
                 $results = SearchEngineHandler::searchWithEngine(
-                    $event->matches['engine'], $event->matches['terms']
+                    $event->matches['engine'], $event->matches['terms'],
+                    1, $filters
                 );
             } catch (\Exception $e) {
-                $this->respondWithPrefix('Unknown search engine.');
+                $this->respondWithPrefix($e->getMessage());
                 return;
             }
         } else {
-            $results = SearchEngineHandler::search($event->matches['terms']);
+            $results = SearchEngineHandler::search(
+                $event->matches['terms'], 1, $filters
+            );
         }
         if (!$results) {
             $this->respondWithPrefix('Could not find any results.');

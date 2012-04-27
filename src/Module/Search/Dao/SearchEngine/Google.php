@@ -9,7 +9,7 @@ class Google extends \Botlife\Entity\SearchEngine
     public $priority = 20;
     public $aliases  = array('g');
     
-    public function search($searchTerms, $results = 1)
+    public function search($searchTerms, $results = 1, $filters = array())
     {
         return false;
     }

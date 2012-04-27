@@ -17,20 +17,29 @@ class SearchEngineHandler
         }
     }
     
-    static public function search($terms, $results = 1)
+    static public function search($terms, $results = 1, $filters = array())
     {
-        return \DataGetter::getData('search-engine', $terms, $results);
+        return \DataGetter::getData(
+        	'search-engine', $terms, $results, $filters
+        );
     }
     
-    static public function searchWithEngine($id, $terms, $results = 1)
-    {
+    static public function searchWithEngine(
+        $id, $terms, $results = 1, $filters = array()
+    ) {
         if (isset(self::$_mapping[$id])) {
             $id = self::$_mapping[$id];
         }
         if (!isset(self::$_engines[$id])) {
             throw new \Exception('Unknown searchengine "' . $id . '"');
         }
-        return self::$_engines[$id]->search($terms, $results);
+        $engine = self::$_engines[$id];
+        foreach ($filters as $filter) {
+            if (!in_array($filter, $engine->filters)) {
+                throw new \Exception('Unknown filter "' . $filter . '"');
+            }
+        }
+        return $engine->search($terms, $results, $filters);
     }
     
     

@@ -9,7 +9,7 @@ class ImdbSearch extends \Botlife\Entity\SearchEngine
     public $priority = 10;
     public $aliases  = array('movie');
     
-    public function search($searchTerms, $results = 1)
+    public function search($searchTerms, $results = 1, $filters = array())
     {
         
         $url        = 'http://www.imdbapi.com/?';
