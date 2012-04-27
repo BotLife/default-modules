@@ -1,8 +1,8 @@
 <?php
 
-namespace Botlife\Module\Misc\Dao;
+namespace Botlife\Module\Search\Dao\SearchEngine;
 
-class GoogleSearch extends \Botlife\Entity\SearchEngine
+class Google extends \Botlife\Entity\SearchEngine
 {
     
     public $id       = 'google';

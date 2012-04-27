@@ -2,8 +2,6 @@
 
 namespace Botlife\Entity;
 
-use Botlife\Module\Misc\Dao\SearchEngine as SEngine;
-
 abstract class SearchEngine
 {
     
@@ -17,7 +15,7 @@ abstract class SearchEngine
         	'search-engine', $this->id, array($this, 'search'),
         	$this->priority
     	);
-        SEngine::addSearchEngine($this, $this->aliases);
+        SearchEngineHandler::addSearchEngine($this, $this->aliases);
     }
     
     abstract public function search($searchTerms, $results = 1);

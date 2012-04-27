@@ -1,8 +1,8 @@
 <?php
 
-namespace Botlife\Module\Misc\Dao;
+namespace Botlife\Entity;
 
-class SearchEngine
+class SearchEngineHandler
 {
     
     static private $_mapping = array();

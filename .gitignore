@@ -2,3 +2,6 @@
 /.settings/
 /.project
 /.buildpath
+
+/build/
+/storage.dat

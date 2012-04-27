@@ -1,8 +1,8 @@
 <?php
 
-namespace Botlife\Module\Misc\Command;
+namespace Botlife\Module\Search\Command;
 
-use Botlife\Module\Misc\Dao\SearchEngine;
+use Botlife\Entity\SearchEngineHandler;
 use Ircbot\Type\MessageCommand;
 
 class Search extends \Botlife\Command\ACommand
@@ -24,7 +24,7 @@ class Search extends \Botlife\Command\ACommand
         }
         if (isset($event->matches['engine']) && $event->matches['engine']) {
             try {
-                $results = SearchEngine::searchWithEngine(
+                $results = SearchEngineHandler::searchWithEngine(
                     $event->matches['engine'], $event->matches['terms']
                 );
             } catch (\Exception $e) {
@@ -32,7 +32,7 @@ class Search extends \Botlife\Command\ACommand
                 return;
             }
         } else {
-            $results = SearchEngine::search($event->matches['terms']);
+            $results = SearchEngineHandler::search($event->matches['terms']);
         }
         if (!$results) {
             $this->respondWithPrefix('Could not find any results.');
