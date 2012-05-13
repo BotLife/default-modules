@@ -21,15 +21,6 @@ class Misc extends AModule
         	'star-rating', 'star-rating-color',
         	array($starRating, 'getRating'), 50
         );
-        $doCurl = new Misc\Dao\DoCurl;
-        \DataGetter::addCallback(
-        	'file-content', 'curl-content',
-            array($doCurl, 'doCurl'), 25
-        );
-        \DataGetter::addCallback(
-        	'file-content', 'file-get-content',
-            array($doCurl, 'fileGetContents'), 50
-        );
         $translator = new Misc\Dao\Translator;
         \DataGetter::addCallback(
         	'translator', 'google-translate',
