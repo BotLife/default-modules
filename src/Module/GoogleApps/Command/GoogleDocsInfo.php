@@ -52,8 +52,11 @@ class GoogleDocsInfo extends \Botlife\Command\ACommand
                 return 'Spreadsheet';
             case 'application/vnd.google-apps.folder':
                 return 'Folder';
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            case 'application/vnd.openxmlformats-officedocument.'
+                . 'wordprocessingml.document':
                 return 'Microsoft Office Word document';
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.template':
+                return 'Microsoft Office Word template';
             default:
                 return 'Unknown';
         }
@@ -109,7 +112,7 @@ class GoogleDocsInfo extends \Botlife\Command\ACommand
         $response['Modified'] = array(
             $dates->modified->format('Y-m-d H:i:s'),
             array(
-                $this->ago($dates->created, $dates->modified),
+                $this->ago($dates->created),
             ),
         );
         if (isset($data->description)) {
