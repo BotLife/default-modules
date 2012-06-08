@@ -9,7 +9,7 @@ class GoogleDocsInfo extends \Botlife\Command\ACommand
 
     public $regex  = array(
         '/^https\:\/\/docs\.google\.com\/spreadsheet\/ccc\?(.*)?key=(?P<id>[A-Za-z0-9_-]+)/i',
-        '/^https\:\/\/docs\.google\.com\/(document|folder|file)\/d\/(?P<id>[A-Za-z0-9_-]+)\/edit/i',
+        '/^https\:\/\/docs\.google\.com\/(document|folder|file|presentation)\/d\/(?P<id>[A-Za-z0-9_-]+)\/edit/i',
         '/^https\:\/\/docs\.google\.com\/open?(.*)?id=(?P<id>[A-Za-z0-9_-]+)/i',
     );
     public $action = 'run';
@@ -52,12 +52,21 @@ class GoogleDocsInfo extends \Botlife\Command\ACommand
                 return 'Spreadsheet';
             case 'application/vnd.google-apps.folder':
                 return 'Folder';
+            case 'application/vnd.google-apps.presentation':
+                return 'Presentation';
             case 'application/vnd.openxmlformats-officedocument.'
                 . 'wordprocessingml.document':
                 return 'Microsoft Office Word document';
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.template':
                 return 'Microsoft Office Word template';
+            case 'application/x-msdos-program':
+                return 'Windows executable';
+            case 'image/jpeg':
+                return 'JPEG image';
+            case 'text/plain':
+                return 'Text file';
             default:
+                print_r($mimeType);
                 return 'Unknown';
         }
     }
