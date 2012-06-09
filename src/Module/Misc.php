@@ -34,11 +34,6 @@ class Misc extends AModule
         	'translator', 'leet-translate',
             array($translator, 'translateWithLeet'), 60
         );
-        $urlShortener = new Misc\Dao\UrlShortener;
-        \DataGetter::addCallback(
-        	'url-shortener', 'google',
-            array($urlShortener, 'usingGoogle'), 60
-        );
         $youtubeShortener = new Misc\Dao\YoutubeShortener;
         \DataGetter::addCallback(
         	'url-shortener', 'youtube',
