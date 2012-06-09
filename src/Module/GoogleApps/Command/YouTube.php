@@ -1,6 +1,6 @@
 <?php
 
-namespace Botlife\Module\Misc\Command;
+namespace Botlife\Module\GoogleApps\Command;
 
 use Ircbot\Type\MessageCommand;
 
@@ -25,7 +25,8 @@ class YouTube extends \Botlife\Command\ACommand
         }
         $this->detectResponseType($event->message, $event->target);
         $this->_lastrun = time();
-        $videoId = (empty($event->matches['id'])) ? $event->matches['idlong'] : $event->matches['id'];
+        $videoId = (empty($event->matches['id'])) ? $event->matches['idlong']
+            : $event->matches['id'];
         $data = $this->getData($videoId);
         if (!$data) {
             return false;
