@@ -7,6 +7,7 @@ class GoogleApps extends AModule
 
     public $commands = array(
 	    '\Botlife\Module\GoogleApps\Command\GoogleDocsInfo',
+        '\Botlife\Module\GoogleApps\Command\YouTubeUrl',
         '\Botlife\Module\GoogleApps\Command\YouTube',
     );
 
