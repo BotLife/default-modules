@@ -18,9 +18,7 @@ class ImdbSearch extends \Botlife\Entity\SearchEngine
             'i' => '',
         );
         $url .= http_build_query($parameters);
-        $data = \DataGetter::getData('file-content',
-            $url
-        );
+        $data = \DataGetter::getData('file-content', $url);
         if (!$data) {
             return false;
         }
@@ -34,7 +32,7 @@ class ImdbSearch extends \Botlife\Entity\SearchEngine
         $info->entries = array();
         
         $result = new \StdClass;
-        $result->id     = $data->ID;
+        $result->id     = $data->imdbID;
         $result->title  = $data->Title;
         $result->description = $data->Plot;
         $result->url    = 'http://www.imdb.com/title/' . $result->id . '/';
@@ -45,10 +43,10 @@ class ImdbSearch extends \Botlife\Entity\SearchEngine
         }
         $result->duration = $this->_getDuration($data->Runtime);
         $result->rating = new \StdClass;
-        $result->votes = $data->Votes;
-        $result->rating->average = (float) $data->Rating * 10;
+        $result->votes = (int) str_replace(',', '', $data->imdbVotes);
+        $result->rating->average = (float) $data->imdbRating * 10;
         list($result->rating->likes, $result->rating->dislikes) = $this
-            ->_splitRating($data->Rating, $result->votes);
+            ->_splitRating($data->imdbRating, $result->votes);
         $result->categories = explode(', ', $data->Genre);
         
         $info->entries[0] = $result;

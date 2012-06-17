@@ -1,6 +1,6 @@
 <?php
 
-namespace Botlife\Module\Misc\Dao;
+namespace Botlife\Module\GoogleApps\Dao;
 
 class UrlShortener
 {

@@ -24,7 +24,7 @@ class UrlShortener extends \Botlife\Command\ACommand
             $event->matches['url']
         );
         if (!$shortenedUrl) {
-            $this->respondWithPrefix($c(12, 'Could not shorten your URL.'));
+            $this->respondWithPrefix('Could not shorten your URL.');
             return;
         }
         $this->respondWithInformation(array(
