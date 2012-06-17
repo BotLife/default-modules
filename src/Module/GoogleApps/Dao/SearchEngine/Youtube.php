@@ -1,6 +1,6 @@
 <?php
 
-namespace Botlife\Module\Search\Dao\SearchEngine;
+namespace Botlife\Module\GoogleApps\Dao\SearchEngine;
 
 class Youtube extends \Botlife\Entity\SearchEngine
 {

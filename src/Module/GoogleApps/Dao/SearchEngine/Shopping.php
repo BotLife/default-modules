@@ -1,6 +1,6 @@
 <?php
 
-namespace Botlife\Module\Search\Dao\SearchEngine;
+namespace Botlife\Module\GoogleApps\Dao\SearchEngine;
 
 class Shopping extends \Botlife\Entity\SearchEngine
 {

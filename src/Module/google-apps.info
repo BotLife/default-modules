@@ -1,0 +1,3 @@
+name     = Google Apps
+class    = GoogleApps
+autoload = true
